@@ -1,0 +1,19 @@
+model Order {
+    id           Int         @id @default(autoincrement())
+    userId       Int
+    total_amount Decimal     @default(0.00) @db.Decimal(10, 2)
+    status       OrderStatus @default(pending)
+
+    user User @relation(fields: [userId], references: [id])
+
+    items OrderItems[]
+    
+}
+
+enum OrderStatus {
+    pending
+    processing
+    shipped
+    delivered
+    cancelled
+}
