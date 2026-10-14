@@ -6,6 +6,7 @@ import { AuthModule } from './auth/auth.module.js';
 import { ConfigModule } from '@nestjs/config';
 import { ProductsModule } from './products/products.module.js';
 import { UserModule } from './users/users.module.js';
+import { OrdersModule } from './orders/orders.module.js';
 
 
 
@@ -18,7 +19,8 @@ import { UserModule } from './users/users.module.js';
     }),
     AuthModule,
     // ProductsModule,
-    UserModule
+    UserModule,
+    OrdersModule
   ],
   controllers: [AppController],
   providers: [AppService],

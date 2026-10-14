@@ -1,0 +1,8 @@
+model Category {
+    id     Int     @id @default(autoincrement())
+    name   String
+    slug   String
+    status Boolean @default(true)
+
+    products Product[]
+}

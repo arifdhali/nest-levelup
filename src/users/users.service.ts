@@ -7,7 +7,7 @@ export class UserServices {
 
 
 
-    async getProfileById(id: number) {
+    async getUserId(id: number) {
 
         try {
             let isUser = await this.prisma.user.findUnique({
@@ -37,7 +37,7 @@ export class UserServices {
         try {
 
 
-            let user = await this.getProfileById(id);
+            let user = await this.getUserId(id);
 
             if (!user) {
                 throw new NotFoundException("User not found");
@@ -65,6 +65,29 @@ export class UserServices {
             throw error
         }
 
+
+
+    }
+
+    async addUserProfile(id: number) {
+
+
+        try {
+            let user = await this.getUserId(id);
+
+            if (!user) {
+                throw new NotFoundException("User not found");
+            }
+            let added = await this.prisma.userProfile.create({
+                data: {
+                    userId: id
+                }
+            })
+            return true;
+
+        } catch (error) {
+            throw error;
+        }
 
 
     }

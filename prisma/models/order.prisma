@@ -6,8 +6,7 @@ model Order {
 
     user User @relation(fields: [userId], references: [id])
 
-    items OrderItems[]
-    
+    orderItems OrderItems[]
 }
 
 enum OrderStatus {

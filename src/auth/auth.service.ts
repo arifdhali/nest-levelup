@@ -80,6 +80,7 @@ export class AuthServices {
                 name: isUser.name,
                 email: isUser.email,
                 role: isUser.role,
+                permissions: isUser.user_permission
             }
 
             const accessToken = await this.jwtservices.signAsync({ ...payload, token_type: "access" })
