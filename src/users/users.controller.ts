@@ -5,20 +5,19 @@ import { Roles } from "../common/decorator/roles.js";
 import { RolesGuard } from "../auth/guard/roles.guard.js";
 import { UserServices } from "./users.service.js";
 import { Permission } from "../common/decorator/permission.js";
-import { PermissionGuard } from "../auth/guard/permission.guard.js";
+
 
 @Controller("users")
-@UseGuards(AuthGuard, RolesGuard, PermissionGuard)
+@UseGuards(AuthGuard, RolesGuard)
 export class UsersController {
 
     constructor(private readonly userServices: UserServices) { }
 
     @Get("/:id/order")
-    @Roles("user")
+    @Roles("admin")
     async findUserOrderById(@Param("id") id: number) {
         try {
             let response = await this.userServices.getOrderByUserId(id);
-
 
             return response;
 

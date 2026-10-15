@@ -1,6 +1,5 @@
 import { ConfigService } from '@nestjs/config';
 import { PrismaMariaDb } from '@prisma/adapter-mariadb';
-import { PrismaClient } from '../generated/prisma/client.js';
 
 export function createPrismaClient(configService: ConfigService) {
     const url = new URL(configService.getOrThrow<string>('DATABASE_URL'),);

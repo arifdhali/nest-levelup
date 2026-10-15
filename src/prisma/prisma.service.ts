@@ -11,14 +11,25 @@ export class PrismaService extends PrismaClient implements OnModuleInit, OnModul
         super({ adapter: client });
     }
     async onModuleInit() {
-        await this.$connect()
-        console.log('✅ MySQL connected successfully through Prisma');
+        try {
+
+            await this.$connect()
+            await this.$queryRaw`SELECT 1`
+            console.log('✅ MySQL connected successfully through Prisma');
+        } catch (error) {
+
+            throw error;
+        }
 
     }
     async onModuleDestroy() {
 
-        await this.$disconnect();
-        console.log('MySQL DISCONNECTED ');
+        try {
+
+        } catch (err) {
+            await this.$disconnect();
+            console.log('MySQL DISCONNECTED ');
+        }
 
     }
 }
