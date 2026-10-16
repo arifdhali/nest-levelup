@@ -46,7 +46,7 @@ export class UserServices {
             let userOrders = await this.prisma.user.findUnique({
                 where: {
                     email: user.email,
-                    status: true
+                    status: true,
                 },
                 select: {
                     id: true,
@@ -62,6 +62,7 @@ export class UserServices {
             return userOrders?.order;
 
         } catch (error) {
+
             throw error
         }
 

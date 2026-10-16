@@ -1,4 +1,4 @@
-import { Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
+import { HttpException, Injectable, OnModuleDestroy, OnModuleInit, ServiceUnavailableException } from '@nestjs/common';
 import { PrismaClient } from '../generated/prisma/client.js';
 import { ConfigService } from '@nestjs/config';
 import { createPrismaClient } from './prisma-client.factory.js';
@@ -17,19 +17,15 @@ export class PrismaService extends PrismaClient implements OnModuleInit, OnModul
             await this.$queryRaw`SELECT 1`
             console.log('✅ MySQL connected successfully through Prisma');
         } catch (error) {
+            // throw error;
+            // console.log(error)
 
-            throw error;
         }
 
     }
     async onModuleDestroy() {
-
-        try {
-
-        } catch (err) {
-            await this.$disconnect();
-            console.log('MySQL DISCONNECTED ');
-        }
+        await this.$disconnect();
+        console.log('MySQL DISCONNECTED ');
 
     }
 }

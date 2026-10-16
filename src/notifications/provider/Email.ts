@@ -12,7 +12,7 @@ export class EmailProvider {
         try {
             this.attempt++;
             console.log('Current attempt:', this.attempt);
-            if (this.attempt <= 2) {
+            if (this.attempt >= 2) {
                 throw new Error('Temporary email provider failure');
             }
             console.log('----- EMAIL SENT (SIMULATED) -----');
@@ -23,7 +23,7 @@ export class EmailProvider {
 
             return {
                 messageId: `email-${Date.now()}`,
-                accepted: true
+                accepted: false
             }
 
         } catch (error) {

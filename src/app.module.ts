@@ -1,4 +1,4 @@
-import { MiddlewareConsumer, Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { AppController } from './app.controller.js';
 import { AppService } from './app.service.js';
 
@@ -9,6 +9,7 @@ import { UserModule } from './users/users.module.js';
 import { OrdersModule } from './orders/orders.module.js';
 import { LoggerMiddleware } from './common/middleware/Logger.middleware.js';
 import { NotificationsModule } from './notifications/notifications.module.js';
+import { RequestContextServices } from './common/filters/request-context.service.js';
 
 
 
@@ -23,15 +24,29 @@ import { NotificationsModule } from './notifications/notifications.module.js';
     // ProductsModule,
     UserModule,
     OrdersModule,
-    NotificationsModule
+    NotificationsModule.register({
+      email: true,
+      sms: true
+    })
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, RequestContextServices],
 
 
 })
-export class AppModule {
+export class AppModule implements OnModuleInit, OnModuleDestroy {
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(LoggerMiddleware).forRoutes("*")
   }
+
+  onModuleInit() {
+    console.log('check all the pending task before other module')
+
+  }
+  async onModuleDestroy(): Promise<void> {
+    console.log('1. onModuleDestroy: Cleaning resources...');
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    console.log('2. onModuleDestroy: Cleanup completed');
+  }
+
 }

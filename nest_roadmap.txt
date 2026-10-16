@@ -1,0 +1,701 @@
+Our complete NestJS roadmap
+LEVEL 0 — Prerequisites
+
+Before Nest itself:
+
+Node.js
+npm
+TypeScript
+ES modules
+decorators
+classes
+interfaces
+generics
+async/await
+Promises
+HTTP
+REST
+JSON
+middleware
+
+Since you already know Express, we won't spend unnecessary time relearning HTTP.
+
+LEVEL 1 — Nest fundamentals
+
+First we'll understand every basic building block.
+
+1. NestJS itself
+
+What is:
+
+NestJS
+Node.js
+Express
+Fastify
+framework
+library
+runtime
+
+And:
+
+NestJS
+   ↓
+Node.js
+   ↓
+HTTP server
+2. Nest CLI
+
+You'll learn:
+
+nest new
+nest generate
+nest g
+nest start
+nest build
+nest info
+
+And understand what the CLI actually creates.
+
+3. Application bootstrap
+NestFactory.create()
+
+Understand:
+
+main.ts
+bootstrap()
+NestFactory
+AppModule
+app.listen()
+LEVEL 2 — Modules
+
+This is one of the most important Nest concepts.
+
+We'll learn:
+
+@Module({})
+
+and:
+
+imports
+controllers
+providers
+exports
+
+You'll understand exactly what this means:
+
+@Module({
+    imports: [],
+    controllers: [],
+    providers: [],
+    exports: [],
+})
+
+And why Nest has modules when Express doesn't require them.
+
+LEVEL 3 — Controllers
+
+Then:
+
+@Controller()
+@Get()
+@Post()
+@Put()
+@Patch()
+@Delete()
+
+We'll cover:
+
+route
+route prefix
+HTTP method
+handler
+request
+response
+status code
+headers
+
+Then request data:
+
+@Param()
+@Query()
+@Body()
+@Headers()
+@Req()
+@Res()
+
+You'll understand:
+
+GET /products/25?details=true
+
+as:
+
+params
+  id = 25
+
+query
+  details = true
+
+and:
+
+POST /products
+
+with:
+
+{
+    "name": "iPhone",
+    "price": 1000
+}
+
+as:
+
+@Body()
+LEVEL 4 — Providers & Services
+
+Now we'll introduce:
+
+@Injectable()
+
+and:
+
+Provider
+Service
+Dependency Injection
+Dependency
+Constructor injection
+IoC
+DI container
+
+This is where you'll understand:
+
+Controller
+     ↓
+Service
+     ↓
+Repository
+     ↓
+Database
+
+instead of blindly copying:
+
+constructor(private readonly service: ProductService) {}
+LEVEL 5 — Dependency Injection deeply
+
+We'll go deep here because this is one of the biggest differences from Express.
+
+You'll learn:
+
+IoC
+DI
+provider token
+class provider
+value provider
+factory provider
+existing provider
+custom provider
+scope
+singleton
+request scope
+transient scope
+
+For example:
+
+{
+    provide: 'PAYMENT_GATEWAY',
+    useClass: StripePaymentGateway,
+}
+
+and understand why someone would actually do this.
+
+LEVEL 6 — DTOs
+
+Then:
+
+DTO
+Data Transfer Object
+
+You'll learn:
+
+CreateProductDto
+UpdateProductDto
+
+and why this:
+
+@Post()
+create(@Body() body: any)
+
+isn't a good production approach.
+
+We'll introduce:
+
+class-validator
+class-transformer
+ValidationPipe
+
+and understand:
+
+@IsString()
+@IsNumber()
+@IsEmail()
+@IsOptional()
+@Min()
+@Max()
+LEVEL 7 — Pipes
+
+Then:
+
+Pipe
+ParseIntPipe
+ParseBoolPipe
+ParseUUIDPipe
+ValidationPipe
+custom pipe
+
+You'll understand:
+
+Request
+   ↓
+Pipe
+   ↓
+Controller
+
+For example:
+
+@Get(':id')
+getProduct(
+    @Param('id', ParseIntPipe) id: number
+) {}
+
+and why this is different from:
+
+Number(req.params.id)
+
+in Express.
+
+LEVEL 8 — Exception handling
+
+Then:
+
+Exception
+HttpException
+BadRequestException
+UnauthorizedException
+ForbiddenException
+NotFoundException
+ConflictException
+InternalServerErrorException
+
+We'll learn:
+
+throw new NotFoundException('Product not found');
+
+and eventually:
+
+Exception filters
+Global exception filter
+Custom error response
+LEVEL 9 — Middleware
+
+You'll learn:
+
+Middleware
+global middleware
+module middleware
+functional middleware
+class middleware
+
+and compare:
+
+Express middleware
+        vs
+Nest middleware
+
+Example:
+
+Request
+  ↓
+Middleware
+  ↓
+Guard
+  ↓
+Interceptor
+  ↓
+Pipe
+  ↓
+Controller
+LEVEL 10 — Guards
+
+This is where authentication/authorization starts.
+
+You'll learn:
+
+Guard
+CanActivate
+ExecutionContext
+
+Then:
+
+Authentication
+Authorization
+Role
+Permission
+RBAC
+
+Example:
+
+@UseGuards(AuthGuard)
+
+and eventually:
+
+@Roles('admin')
+LEVEL 11 — Interceptors
+
+Then:
+
+Interceptor
+NestInterceptor
+ExecutionContext
+CallHandler
+Observable
+RxJS
+
+You'll understand this flow:
+
+Request
+   ↓
+Interceptor
+   ↓
+Controller
+   ↓
+Interceptor
+   ↓
+Response
+
+Use cases:
+
+logging
+timing
+response transformation
+caching
+serialization
+LEVEL 12 — Custom decorators
+
+Then:
+
+createParamDecorator()
+
+You'll learn why Nest allows:
+
+@CurrentUser()
+user
+
+instead of repeatedly writing:
+
+req.user
+
+We'll build custom decorators ourselves.
+
+LEVEL 13 — Authentication
+
+Now we'll build real authentication.
+
+Register
+Login
+Logout
+Access token
+Refresh token
+Password hashing
+JWT
+Cookies
+Sessions
+
+We'll understand:
+
+Authentication
+        ≠
+Authorization
+
+Then:
+
+Login
+ ↓
+JWT
+ ↓
+Guard
+ ↓
+Protected route
+LEVEL 14 — Authorization
+
+We'll implement:
+
+user
+admin
+super-admin
+
+Then:
+
+RBAC
+Permissions
+RolesGuard
+Custom metadata
+Reflector
+LEVEL 15 — Database
+
+Then we'll connect a real database.
+
+Since this is an ecommerce backend:
+
+NestJS
+   ↓
+Prisma
+   ↓
+PostgreSQL/MySQL
+
+We'll learn:
+
+schema
+model
+migration
+relation
+one-to-one
+one-to-many
+many-to-many
+transaction
+query
+repository pattern
+LEVEL 16 — Real ecommerce architecture
+
+Now we'll build:
+
+AuthModule
+UserModule
+ProductModule
+CategoryModule
+CartModule
+OrderModule
+PaymentModule
+AdminModule
+
+Example:
+
+ProductsModule
+│
+├── products.controller.ts
+├── products.service.ts
+├── products.repository.ts
+├── dto/
+│   ├── create-product.dto.ts
+│   └── update-product.dto.ts
+└── types/
+
+But importantly, we'll discuss whether each layer is actually necessary.
+
+I don't want you blindly creating 15 files because some tutorial says so.
+
+LEVEL 17 — Configuration
+
+Then:
+
+ConfigModule
+environment variables
+.env
+configuration
+validation
+
+You'll understand:
+
+process.env
+
+versus Nest's:
+
+ConfigService
+LEVEL 18 — Serialization
+
+Then:
+
+ClassSerializerInterceptor
+Serialize
+Expose
+Exclude
+Transform
+
+Especially important for things like:
+
+password
+refreshToken
+internal fields
+
+so you don't accidentally return them in API responses.
+
+LEVEL 19 — API documentation
+
+We'll learn:
+
+Swagger
+OpenAPI
+@ApiTags
+@ApiOperation
+@ApiResponse
+@ApiBody
+@ApiParam
+
+and generate:
+
+/api/docs
+LEVEL 20 — Testing
+
+Then:
+
+unit testing
+integration testing
+e2e testing
+Jest
+TestingModule
+mocking
+supertest
+
+We'll test:
+
+Controller
+Service
+Guard
+Pipe
+API
+LEVEL 21 — Advanced NestJS
+
+After the fundamentals:
+
+Dynamic modules
+Custom providers
+ModuleRef
+DiscoveryService
+Lifecycle hooks
+OnModuleInit
+OnModuleDestroy
+Global modules
+Forward references
+Circular dependencies
+Request-scoped providers
+LEVEL 22 — Performance
+
+Then:
+
+Caching
+CacheManager
+Redis
+compression
+rate limiting
+connection pooling
+database optimization
+pagination
+cursor pagination
+LEVEL 23 — Queues & background jobs
+
+For ecommerce:
+
+Order created
+      ↓
+Queue
+      ↓
+Email
+      ↓
+Invoice
+      ↓
+Notification
+
+We'll learn:
+
+BullMQ
+Redis
+background jobs
+workers
+retry
+delayed jobs
+LEVEL 24 — Events
+
+Then:
+
+Event-driven architecture
+EventEmitter
+Domain events
+
+Example:
+
+OrderCreated
+     ↓
+ ┌───┼─────────┐
+ ↓   ↓         ↓
+Email Invoice Analytics
+LEVEL 25 — WebSockets
+
+Then:
+
+WebSocket
+Gateway
+Socket
+Rooms
+Events
+
+Useful for things like:
+
+live order status
+admin notifications
+real-time inventory
+LEVEL 26 — Microservices
+
+Only after you understand the monolith.
+
+We'll cover:
+
+Monolith
+   ↓
+Modular monolith
+   ↓
+Microservices
+
+Then:
+
+TCP
+Redis
+RabbitMQ
+Kafka
+gRPC
+message patterns
+events
+
+And importantly:
+
+When NOT to use microservices.
+
+LEVEL 27 — Production
+
+Finally:
+
+Docker
+environment management
+logging
+health checks
+graceful shutdown
+security headers
+CORS
+CSRF
+rate limiting
+validation
+monitoring
+deployment
+CI/CD
+
+And production architecture:
+
+                    Internet
+                       │
+                  Load Balancer
+                       │
+                ┌──────┴──────┐
+                │             │
+             Next.js        NestJS
+                │             │
+                │          Redis
+                │             │
+                └───────┬─────┘
+                        │
+                    PostgreSQL

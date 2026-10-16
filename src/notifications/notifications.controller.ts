@@ -12,7 +12,7 @@ export class NotificationsController {
   async send(@Body() body: sendNotificationsDto) {
 
     try {
-      return await this.notificationsService.send(body);
+      return await this.notificationsService.sendEmail(body);
     } catch (err) {
       throw err;
     }
