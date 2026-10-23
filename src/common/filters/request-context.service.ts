@@ -11,8 +11,8 @@ export class RequestContextServices {
     constructor(@Inject(REQUEST) private readonly request: Request) { }
 
 
-
     getInformation() {
+        // console.log(this.request)
         return {
             requestID: this.requestId,
             method: this.request.method,

@@ -12,8 +12,8 @@ async function bootstrap() {
       forbidNonWhitelisted: true,
       transform: true
     }))
-    app.setGlobalPrefix("api")
-    app.enableShutdownHooks()
+    // app.setGlobalPrefix("api")
+    // app.enableShutdownHooks()
 
     await app.listen(process.env.PORT ?? 3000, process.env.HOST ?? "localhost");
     app.useGlobalFilters(new HTTPExceptionFilter())
