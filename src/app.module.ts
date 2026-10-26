@@ -1,4 +1,4 @@
-import { MiddlewareConsumer, Module, OnModuleDestroy, OnModuleInit, RequestMethod } from '@nestjs/common';
+import { ExecutionContext, MiddlewareConsumer, Module, OnModuleDestroy, OnModuleInit, RequestMethod } from '@nestjs/common';
 import { AppController } from './app.controller.js';
 import { AppService } from './app.service.js';
 
@@ -11,14 +11,20 @@ import { RequestMiddleware } from './common/middleware/request-id.middleware.js'
 import { NotificationsModule } from './notifications/notifications.module.js';
 import { RequestContextServices } from './common/filters/request-context.service.js';
 import { RequestLoggerInterceptor } from './common/interceptor/request-logging.interceptor.js';
-import { APP_INTERCEPTOR } from '@nestjs/core';
+import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { CacheModule } from '@nestjs/cache-manager';
-
-
-
+import { ThrottlerModule } from '@nestjs/throttler';
+import { CustomThrottleGuard } from './common/guard/custom-throttle.guard.js';
 
 @Module({
   imports: [
+    ThrottlerModule.forRoot([
+      {
+        name: "default",
+        ttl: 1000 * 5,
+        limit: 100
+      },
+    ]),
     ConfigModule.forRoot({
       envFilePath: ".env",
       isGlobal: true,
@@ -34,14 +40,19 @@ import { CacheModule } from '@nestjs/cache-manager';
     }),
     CacheModule.register({
       isGlobal: true,
-    })
+    }),
+
   ],
   controllers: [AppController],
   providers: [AppService, RequestContextServices,
     {
+      provide: APP_GUARD,
+      useClass: CustomThrottleGuard
+    },
+    {
       provide: APP_INTERCEPTOR,
       useClass: RequestLoggerInterceptor
-    }
+    },
   ],
 
 
@@ -68,3 +79,4 @@ export class AppModule implements OnModuleInit, OnModuleDestroy {
   }
 
 }
+
